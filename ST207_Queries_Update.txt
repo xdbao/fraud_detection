@@ -1,0 +1,98 @@
+// a. Find top 3 Internet Protocol (IP) addresses by number of transactions
+
+MATCH (t:transaction)-[:from_ip]->(ip:ip_address) WITH ip, COUNT(t) as no_of_transaction
+ORDER BY no_of_transaction DESC
+LIMIT 3
+MATCH path = (t:transaction)-[:from_ip]->(ip:ip_address) RETURN path;
+
+// b. Identify multiple transactions from the same card within 5 minutes (300 seconds) and show their respective IP address and located cities.
+
+MATCH (t:transaction)-[:from_card]->(cc:credit_card)
+WITH t, cc
+ORDER BY t.transaction_datetime
+WITH cc, collect(t) as transaction, collect(t.transaction_datetime) as date UNWIND range(0, size(transaction)-2) as index
+WITH cc, transaction, date, index
+WHERE duration.inSeconds(date[index], date[index+1]).seconds <= 300
+UNWIND [transaction[index], transaction[index + 1]] as transactionRange
+MATCH path = (cc) <- [:from_card]-(transactionRange)-[:from_ip]-> (ip:ip_address)- [li:located_in]->(c:city)
+RETURN path;
+
+// c. Identify multiple transactions from the same card within 5 minutes (300 seconds) from different IP addresses located in different cities.
+
+MATCH (c:city)<-[:located_in]-(ip:ip_address)<-[:from_ip]-(t:transaction)-[:from_card]->(cc:credit_card) WITH t, cc, ip, c
+ORDER BY t.transaction_datetime
+WITH cc, collect(t) as transaction, collect(t.transaction_datetime) as date,
+collect(ip) as ipp, collect(c) as cityy
+UNWIND range(0, size(transaction)-2) as index
+WITH cc, transaction, date, ipp, cityy, index
+WHERE duration.inSeconds(date[index], date[index+1]).seconds <= 300
+AND ipp[index] <> ipp[index+1]
+AND cityy[index] <> cityy[index+1]
+WITH cc,[[transaction[index], transaction[index + 1]], [ipp[index], ipp[index + 1]],[cityy[index], cityy[index + 1]]] AS nested
+UNWIND nested as x
+UNWIND x AS y
+RETURN cc, y;
+
+// d. Recognize subsequent transaction that took place after the last transaction in D4 and cluster them with the previous transactions.
+
+MATCH (c:city)<-[:located_in]-(ip:ip_address)<-[:from_ip]-(t:transaction)-[:from_card]->(cc:credit_card) WITH t, cc, ip, c
+ORDER BY t.transaction_datetime
+WITH cc, collect(t) as transaction, collect(t.transaction_datetime) as date,
+collect(ip) as ipp, collect(c) as cityy
+UNWIND range(0, size(transaction)-2) as index
+WITH cc, transaction, date, ipp, cityy, index
+WHERE duration.inSeconds(date[index], date[index+1]).seconds <= 1800
+AND ipp[index] <> ipp[index+1]
+AND cityy[index] <> cityy[index+1]
+WITH cc,[[transaction[index], transaction[index + 1]], [ipp[index], ipp[index + 1]],[cityy[index], cityy[index + 1]]] AS nested
+UNWIND nested as x
+UNWIND x AS y
+OPTIONAL MATCH (cc)<- [:from_card]-(t)
+WHERE t.transaction_datetime > y.transaction_datetime
+RETURN cc,t,y
+
+// e.  Identify transactions, account holder and card used for the transaction whe n transaction amount is beyond 2 times of average transaction amount from each card
+MATCH (a:account_holder)-[:has_creditcard]->(cc:credit_card)<-[:from_card]-(t:transaction) WITH cc, AVG(t.transaction_amount) as avg_amount, a
+OPTIONAL MATCH path =(a:account_holder)-[:has_creditcard]->(cc:credit_card)<-[:from_card]- (t2:transaction)
+WHERE t2.transaction_amount >= 2*avg_amount RETURN path;
+
+
+// f. Perform an Address Verification Service (AVS) to find mismatch of customers’ addresses and billing address of the transaction
+
+MATCH (original_add:address) <- [has:has_address] -(a:account_holder) - [c:has_creditcard] -> (cc:credit_card) <- [fc:from_card] - (t:transaction) - [b:billed_at] - (billed_address:address) WHERE original_add <> billed_address
+RETURN a,c,cc,fc,t,b,original_add,has,billed_address;
+
+
+// g. Update balance of credit card after deduction of transaction amount from latest transaction and update date to the latest transaction date
+
+// Find the last transaction ID and card used for the transaction
+
+MATCH (t0:transaction)
+WITH t0
+ORDER BY t0.transaction_id DESC
+LIMIT 1
+WITH t0
+OPTIONAL MATCH (t0:transaction)-[:from_card]->(cc:credit_card) RETURN t0,cc;
+
+//Find new transaction ID by adding 1 to the last transaction ID (which is 922)
+
+MATCH (t0:transaction)
+WITH t0
+ORDER BY t0.transaction_id DESC
+LIMIT 1
+WITH t0.transaction_id +1 as new_transaction_id,t0
+// Then, create a new transaction node with the new transaction ID and set the datetime and transaction amount
+CREATE (t:transaction{transaction_id:new_transaction_id, transaction_datetime: datetime("2022-11-21T07:12:32.142Z"),transaction_amount: 2000})
+// Then, create the billed_at, delivered_at, from_ip, with_login relationship for the new transaction node
+WITH new_transaction_id,t,t0 MATCH(t:transaction{transaction_id:new_transaction_id}),(ad:address{add_id:1005}) MERGE(t)-[:billed_at]->(ad)
+WITH new_transaction_id,t,t0
+
+MATCH(t:transaction{transaction_id:new_transaction_id}),(ad:address{add_id:1005}) MERGE(t)-[:delivered_at]->(ad)
+WITH new_transaction_id,t,t0 MATCH(t:transaction{transaction_id:new_transaction_id}),(ip:ip_address{ipid:3012}) MERGE(t)-[:from_ip]->(ip)
+WITH new_transaction_id,t,t0 MATCH(t:transaction{transaction_id:new_transaction_id}),(l:login{login_id: 508}) MERGE(t)-[:with_login]->(l)
+// Update balance of credit card after deduction of transaction amount from latest transaction and update date to the latest transaction date
+WITH new_transaction_id,t,t0 MATCH(t:transaction{transaction_id:new_transaction_id}),(cc:credit_card{card_number:3456123456789104})
+MERGE(t)-[:from_card]->(cc)
+SET cc.balance_date = datetime() , cc.balance = cc.balance - t0.transaction_amount
+RETURN cc,t;
+

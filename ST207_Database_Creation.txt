@@ -1,0 +1,848 @@
+// constraint for account holder
+
+CREATE CONSTRAINT accountholder_unique IF NOT EXISTS
+FOR (a:account_holder) REQUIRE a.unique_id IS UNIQUE;
+
+// constraint for national insurance number
+
+CREATE CONSTRAINT nin_unique IF NOT EXISTS
+FOR (n:nin) REQUIRE n.nin IS UNIQUE;
+
+// constraint for phone number
+
+CREATE CONSTRAINT phone_unique IF NOT EXISTS
+FOR (p:phone) REQUIRE p.phone_number IS UNIQUE;
+
+// constraint 1 for address 
+
+CREATE CONSTRAINT addid_unique IF NOT EXISTS
+FOR (ad:address) 
+REQUIRE (ad.add_id) IS UNIQUE;
+
+// constraint 2 for address 
+
+CREATE CONSTRAINT address_unique IF NOT EXISTS
+FOR (ad:address) 
+REQUIRE (ad.flat_number, ad.flat_name, ad.city, ad.postcode, ad.country) IS UNIQUE;
+
+// constraint for identification
+
+CREATE CONSTRAINT id_unique IF NOT EXISTS
+FOR (id:identification) REQUIRE id.id_number IS UNIQUE;
+
+// constraint 1 for financial institution
+
+CREATE CONSTRAINT institutionid_unique IF NOT EXISTS
+FOR (fi:financial_institution) REQUIRE fi.bank_id IS UNIQUE;
+
+// constraint 2 for financial institution
+
+CREATE CONSTRAINT institutionname_unique IF NOT EXISTS
+FOR (fi:financial_institution) REQUIRE fi.name IS UNIQUE;
+
+// constraint for credit card
+
+CREATE CONSTRAINT creditcard_unique IF NOT EXISTS
+FOR (cc:credit_card) REQUIRE cc.card_number IS UNIQUE;
+
+// constraint 1 for IP address
+
+CREATE CONSTRAINT ipid_unique IF NOT EXISTS
+FOR (ip:ip_address) REQUIRE ip.ipid IS UNIQUE;
+
+// constraint 2 for IP address
+
+CREATE CONSTRAINT ip_unique IF NOT EXISTS
+FOR (ip:ip_address) REQUIRE ip.ip IS UNIQUE;
+
+// constraint for transaction
+
+CREATE CONSTRAINT transaction_unique IF NOT EXISTS
+FOR (t:transaction) REQUIRE t.transaction_id IS UNIQUE;
+
+// constraint 1 for city
+
+CREATE CONSTRAINT city_unique IF NOT EXISTS
+FOR (c:city) REQUIRE c.city_id IS UNIQUE;
+
+// constraint 2 for city
+
+CREATE CONSTRAINT cityname_unique IF NOT EXISTS
+FOR (c:city) REQUIRE c.city IS UNIQUE;
+
+// constraint 1 for login
+
+CREATE CONSTRAINT loginid_unique IF NOT EXISTS 
+FOR (l:login) 
+REQUIRE l.login_id IS UNIQUE;
+
+// constraint 2 for login
+
+CREATE CONSTRAINT username_unique IF NOT EXISTS 
+FOR (l:login) 
+REQUIRE l.user_name IS UNIQUE;
+
+// constraint 3 for login
+
+CREATE CONSTRAINT email_unique IF NOT EXISTS 
+FOR (l:login) 
+REQUIRE l.email_address IS UNIQUE;
+
+// constraint for shop
+
+CREATE CONSTRAINT shopid_unique IF NOT EXISTS
+FOR (s:shop) REQUIRE s.shop_id IS UNIQUE;
+
+// node for account holder
+
+CREATE (yun1:account_holder{birth_date: date({year: 2022, month: 1, day:1 }), first_name:"Yun Lin",last_name:"Ng", unique_id:111});
+CREATE (yun2:account_holder{birth_date: date({year: 2022, month: 1, day:2 }), first_name:"Yun Lin",last_name:"Ng", unique_id:112});
+CREATE (yun3:account_holder{birth_date: date({year: 2022, month: 1, day:3 }), first_name:"Yun Lin",last_name:"Ng", unique_id:113});
+CREATE (yun4:account_holder{birth_date: date({year: 2022, month: 1, day:4 }), first_name:"Yun Lin",last_name:"Ng", unique_id:114});
+CREATE (yun5:account_holder{birth_date: date({year: 2022, month: 1, day:5 }), first_name:"Yun Lin",last_name:"Ng",  unique_id:115});
+CREATE (zoe:account_holder{birth_date: date({year: 2022, month: 1, day:6 }), first_name:"Zoe",last_name:"Rice", unique_id:116});
+CREATE (isa:account_holder{birth_date: date({year: 2022, month: 1, day:7 }), first_name:"Isabella",last_name:"Obrien", unique_id:117});
+CREATE (emma:account_holder{birth_date: date({year: 2022, month: 1, day:8 }), first_name:"Emma",last_name:"Kamb", unique_id:118});
+CREATE (ava:account_holder{birth_date: date({year: 2022, month: 1, day:9 }), first_name:"Ava",last_name:"Reisman", unique_id:119});
+CREATE (quinn:account_holder{birth_date: date({year: 2022, month: 1, day:10 }), first_name:"Quinn",last_name:"Sanderson", unique_id:120});
+
+// node for national insurance number
+
+CREATE (n1:nin{nin:211});
+CREATE (n2:nin{nin:212});
+CREATE (n3:nin{nin:213});
+CREATE (n4:nin{nin:214});
+CREATE (n5:nin{nin:215});
+CREATE (n6:nin{nin:216});
+
+// node for phone 
+
+CREATE (p1:phone{phone_number: 447436351171, provider:"Virgin Media"});
+CREATE (p2:phone{phone_number: 447436351172, provider:"Sky"});
+CREATE (p3:phone{phone_number: 447436351173, provider:"BT"});
+CREATE (p4:phone{phone_number: 447436351174, provider:"Virgin Media"});
+CREATE (p5:phone{phone_number: 447436351175, provider:"Virgin Media"});
+CREATE (p6:phone{phone_number: 447436351176, provider:"Virgin Media"});
+
+// node for address
+
+CREATE (ad1:address{add_id:1000, flat_number:70, flat_name:"Berry Court", city :"Southampton", postcode:"S0535PD", country:"UK"});
+CREATE (ad2:address{add_id:1001, flat_number:71, flat_name:"Great Sutton House", city :"London", postcode:"EC1V0EB", country:"UK"});
+CREATE (ad3:address{add_id:1002, flat_number:72, flat_name:"Long Lane House", city :"London", postcode:"EC1A8AB", country:"UK"}); 
+CREATE (ad4:address{add_id:1003, flat_number:73, flat_name:"Furnival Court", city :"Rugby", postcode:"CV401FG", country:"UK"});
+CREATE (ad5:address{add_id:1004, flat_number:74, flat_name:"Eagle House", city :"London", postcode:"EC1V8BL", country:"UK"});
+CREATE (ad6:address{add_id:1005, flat_number:75, flat_name:"Vivien House", city :"London", postcode:"SW19WE", country:"UK"});
+
+// node for identification
+
+CREATE (id1:identification{issued_date: date({year: 2022, month: 1, day:1 }), expiration_date: date({year: 2025, month: 1, day:1 }),id_number:11, type:"passport"});
+CREATE (id2:identification{issued_date: date({year: 2022, month: 1, day:2 }), expiration_date: date({year: 2025, month: 1, day:2 }),id_number:12, type:"driving license"});
+CREATE (id3:identification{issued_date: date({year: 2022, month: 1, day:3 }), expiration_date: date({year: 2025, month: 1, day:3 }),id_number:13, type:"driving license"});
+CREATE (id4:identification{issued_date: date({year: 2022, month: 1, day:4 }), expiration_date: date({year: 2025, month: 1, day:4 }),id_number:14, type:"passport"});
+CREATE (id5:identification{issued_date: date({year: 2022, month: 1, day:5 }), expiration_date: date({year: 2025, month: 1, day:5 }),id_number:15, type:"driving license"});
+CREATE (id6:identification{issued_date: date({year: 2022, month: 1, day:6 }), expiration_date: date({year: 2025, month: 1, day:6 }),id_number:16, type:"driving license"});
+
+// node for financial institution
+
+CREATE (hsbc:financial_institution{name:"HSBC",bank_id:2001});
+CREATE (barc:financial_institution{name:"Barclays",bank_id:2002});
+CREATE (nat:financial_institution{name:"NatWest Group",bank_id:2003});
+CREATE (san:financial_institution{name:"Santander UK",bank_id:2004});
+CREATE (stan:financial_institution{name:"Standard Chatered",bank_id:2005});
+
+// node for credit card
+
+CREATE (cc1:credit_card{card_number: 5453123456789101, expiration_date:date({year: 2025, month: 1}), security_code: 701, balance: 10000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 1000});
+CREATE (cc2:credit_card{card_number: 3456123456789102, expiration_date:date({year: 2025, month: 2}), security_code: 702, balance: 20000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 2000});
+CREATE (cc3:credit_card{card_number: 2456123456789103, expiration_date:date({year: 2025, month: 3}), security_code: 703, balance: 30000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 3000});
+CREATE (cc4:credit_card{card_number: 1456123456789104, expiration_date:date({year: 2025, month: 4}), security_code: 704, balance: 40000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 4000});
+CREATE (cc5:credit_card{card_number: 6456123456789105, expiration_date:date({year: 2025, month: 5}), security_code: 705, balance: 50000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 5000});
+CREATE (cc6:credit_card{card_number: 3456123456789101, expiration_date:date({year: 2025, month: 1}), security_code: 801, balance: 10000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 1000});
+CREATE (cc7:credit_card{card_number: 3456123456789105, expiration_date:date({year: 2025, month: 2}), security_code: 802, balance: 20000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 2000});
+CREATE (cc8:credit_card{card_number: 2456123456789101, expiration_date:date({year: 2025, month: 1}), security_code: 901, balance: 50000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 5000});
+CREATE (cc9:credit_card{card_number: 3456123456789103, expiration_date:date({year: 2025, month: 3}), security_code: 803, balance: 20000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 2000});
+CREATE (cc10:credit_card{card_number: 3456123456789104, expiration_date:date({year: 2025, month: 4}), security_code: 804, balance: 20000 , balance_date: datetime("2022-12-01T23:08:32.142Z"), limit: 2000});
+ 
+// node for IP address
+
+CREATE (ip1:ip_address{ip:"36.12.82.46",ipid:3001});
+CREATE (ip2:ip_address{ip:"36.122.282.56",ipid:3002});
+CREATE (ip3:ip_address{ip:"46.12.82.46",ipid:3003});
+CREATE (ip4:ip_address{ip:"46.122.282.56",ipid:3004});
+CREATE (ip5:ip_address{ip:"56.12.82.46",ipid:3005});
+CREATE (ip6:ip_address{ip:"66.12.82.46",ipid:3006});
+CREATE (ip7:ip_address{ip:"66.122.282.56",ipid:3007});
+CREATE (ip8:ip_address{ip:"66.122.282.57",ipid:3008});
+CREATE (ip9:ip_address{ip:"66.12.82.47",ipid:3009});
+CREATE (ip10:ip_address{ip:"76.12.82.46",ipid:3010});
+CREATE (ip11:ip_address{ip:"76.122.282.56",ipid:3011});
+CREATE (ip12:ip_address{ip:"76.12.82.47",ipid:3012});
+
+// node for transaction
+
+CREATE (t1:transaction{transaction_id:901, transaction_datetime: datetime("2022-08-01T23:08:32.142Z"),transaction_amount: 30});
+CREATE (t2:transaction{transaction_id:902, transaction_datetime: datetime("2022-08-03T18:01:32.142Z"),transaction_amount: 50});
+CREATE (t3:transaction{transaction_id:903, transaction_datetime: datetime("2022-08-10T20:03:32.142Z"),transaction_amount: 20});
+CREATE (t4:transaction{transaction_id:904, transaction_datetime: datetime("2022-08-11T23:23:32.142Z"),transaction_amount: 10});
+CREATE (t5:transaction{transaction_id:905, transaction_datetime: datetime("2022-08-20T08:04:32.142Z"),transaction_amount: 5});
+CREATE (t6:transaction{transaction_id:906, transaction_datetime: datetime("2022-08-12T10:11:32.142Z"),transaction_amount: 5});
+CREATE (t7:transaction{transaction_id:907, transaction_datetime: datetime("2022-08-12T10:13:32.142Z"),transaction_amount: 5});
+CREATE (t8:transaction{transaction_id:908, transaction_datetime: datetime("2022-08-12T10:15:32.142Z"),transaction_amount: 5});
+CREATE (t9:transaction{transaction_id:909, transaction_datetime: datetime("2022-08-12T10:17:32.142Z"),transaction_amount: 5000});
+CREATE (t10:transaction{transaction_id:910, transaction_datetime: datetime("2022-09-01T06:01:32.142Z"),transaction_amount: 5000});
+CREATE (t11:transaction{transaction_id:911, transaction_datetime: datetime("2022-09-22T23:11:32.142Z"),transaction_amount: 80});
+CREATE (t12:transaction{transaction_id:912, transaction_datetime: datetime("2022-10-01T06:04:32.142Z"),transaction_amount: 50});
+CREATE (t13:transaction{transaction_id:913, transaction_datetime: datetime("2022-10-01T23:03:32.142Z"),transaction_amount: 80});
+CREATE (t14:transaction{transaction_id:914, transaction_datetime: datetime("2022-10-21T07:01:32.142Z"),transaction_amount: 50});
+CREATE (t15:transaction{transaction_id:915, transaction_datetime: datetime("2022-10-22T23:02:32.142Z"),transaction_amount: 30});
+CREATE (t16:transaction{transaction_id:916, transaction_datetime: datetime("2022-10-30T06:05:32.142Z"),transaction_amount: 100});
+CREATE (t17:transaction{transaction_id:917, transaction_datetime: datetime("2022-11-01T06:01:32.142Z"),transaction_amount: 100});
+CREATE (t18:transaction{transaction_id:918, transaction_datetime: datetime("2022-11-12T23:03:32.142Z"),transaction_amount: 100});
+CREATE (t19:transaction{transaction_id:919, transaction_datetime: datetime("2022-11-21T07:01:32.142Z"),transaction_amount: 5});
+CREATE (t20:transaction{transaction_id:920, transaction_datetime: datetime("2022-11-21T07:03:32.142Z"),transaction_amount: 30});
+CREATE (t21:transaction{transaction_id:921, transaction_datetime: datetime("2022-11-21T07:03:32.142Z"),transaction_amount: 10 });
+CREATE (t22:transaction{transaction_id:922, transaction_datetime: datetime("2022-11-21T07:08:32.142Z"),transaction_amount: 2000});
+
+// node for city
+
+CREATE (south:city{city:"Southampton", city_id:4001});
+CREATE (london:city{city:"London", city_id:4002});
+CREATE (rugby:city{city:"Rugby", city_id:4003});
+CREATE (sg:city{city:"Singapore", city_id:4004});
+CREATE (bar:city{city:"Barcelona", city_id:4005});
+
+// node for login
+
+CREATE (l1:login{login_id: 501, user_name:"yunlinng", email_address:"ngyunlin@hotmail.com", password:"abcd1234"}); 
+CREATE (l2:login{login_id: 502, user_name:"yunlin", email_address:"yunlin@live.com", password:"abcd1235"});
+CREATE (l3:login{login_id: 503, user_name:"zoerice", email_address:"zoerice@hotmail.com", password:"abcd1236"});
+CREATE (l5:login{login_id: 505, user_name:"isabella", email_address:"isabella1212@gmail.com", password:"abcd1238"}); 
+CREATE (l6:login{login_id: 506, user_name:"emma", email_address:"emma0829@gmail.com", password:"abcd1239"});
+CREATE (l7:login{login_id: 507, user_name:"ava", email_address:"ava0123@gmail.com", password:"abcd1231"});
+CREATE (l8:login{login_id: 508, user_name:"quinn", email_address:"quinn09@gmail.com", password:"abcd1232"});
+
+// node for shop
+CREATE (s1:shop{shop_id:601, shop_name: "FASTSO"});
+
+// relationship for has_nin
+
+MATCH (yun1:account_holder{unique_id:111}),(n1:nin{nin:211})
+MERGE (yun1)-[:has_nin]-> (n1);
+ 
+MATCH (yun2:account_holder{unique_id:112}),(n1:nin{nin:211})
+MERGE (yun2)-[:has_nin]-> (n1);
+ 
+MATCH (yun3:account_holder{unique_id:113}),(n1:nin{nin:211})
+MERGE (yun3)-[:has_nin]-> (n1);
+ 
+MATCH (yun4:account_holder{unique_id:114}),(n1:nin{nin:211})
+MERGE (yun4)-[:has_nin]-> (n1);
+ 
+MATCH (yun5:account_holder{unique_id:115}),(n1:nin{nin:211})
+MERGE (yun5)-[:has_nin]-> (n1);
+ 
+MATCH (zoe:account_holder{unique_id:116}),(n2:nin{nin:212})
+MERGE (zoe)-[:has_nin]-> (n2);
+ 
+MATCH (isa:account_holder{unique_id:117}),(n3:nin{nin:213})
+MERGE (isa)-[:has_nin]-> (n3);
+ 
+MATCH (emma:account_holder{unique_id:118}),(n4:nin{nin:214})
+MERGE (emma)-[:has_nin]-> (n4);
+
+MATCH (ava:account_holder{unique_id:119}),(n5:nin{nin:215})
+MERGE (ava)-[:has_nin]-> (n5);
+ 
+MATCH (quinn:account_holder{unique_id:120}),(n6:nin{nin:216})
+MERGE (quinn)-[:has_nin]-> (n6);
+
+// relationship for has_phonenumber
+
+MATCH (yun1:account_holder{unique_id:111}),(p1:phone{phone_number:447436351171})
+MERGE (yun1)-[:has_phonenumber]-> (p1);
+ 
+MATCH (yun2:account_holder{unique_id:112}),(p1:phone{phone_number:447436351171})
+MERGE (yun2)-[:has_phonenumber]-> (p1);
+ 
+MATCH (yun3:account_holder{unique_id:113}),(p1:phone{phone_number:447436351171})
+MERGE (yun3)-[:has_phonenumber]-> (p1);
+ 
+MATCH (yun4:account_holder{unique_id:114}),(p1:phone{phone_number:447436351171})
+MERGE (yun4)-[:has_phonenumber]-> (p1);
+ 
+MATCH (yun5:account_holder{unique_id:115}),(p1:phone{phone_number:447436351171})
+MERGE (yun5)-[:has_phonenumber]-> (p1);
+ 
+MATCH (zoe:account_holder{unique_id:116}),(p2:phone{phone_number:447436351172})
+MERGE (zoe)-[:has_phonenumber]-> (p2);
+ 
+MATCH (isa:account_holder{unique_id:117}),(p3:phone{phone_number:447436351173})
+MERGE (isa)-[:has_phonenumber]-> (p3);
+ 
+MATCH (emma:account_holder{unique_id:118}),(p4:phone{phone_number:447436351174})
+MERGE (emma)-[:has_phonenumber]-> (p4);
+ 
+MATCH (ava:account_holder{unique_id:119}),(p5:phone{phone_number:447436351175})
+MERGE (ava)-[:has_phonenumber]-> (p5);
+ 
+MATCH (quinn:account_holder{unique_id:120}),(p6:phone{phone_number:447436351176})
+MERGE (quinn)-[:has_phonenumber]-> (p6);
+
+// relationship for has_address
+
+MATCH (yun1:account_holder{unique_id:111}),(ad1:address{add_id: 1000})
+MERGE (yun1)-[:has_address]-> (ad1);
+ 
+MATCH (yun2:account_holder{unique_id:112}),(ad1:address{add_id: 1000})
+MERGE (yun2)-[:has_address]-> (ad1);
+ 
+MATCH (yun3:account_holder{unique_id:113}),(ad1:address{add_id: 1000})
+MERGE (yun3)-[:has_address]-> (ad1);
+ 
+MATCH (yun4:account_holder{unique_id:114}),(ad1:address{add_id: 1000})
+MERGE (yun4)-[:has_address]-> (ad1);
+ 
+MATCH (yun5:account_holder{unique_id:115}),(ad1:address{add_id: 1000})
+MERGE (yun5)-[:has_address]-> (ad1);
+ 
+MATCH  (zoe:account_holder{unique_id:116}),(ad2:address{add_id: 1001})
+MERGE (zoe)-[:has_address]-> (ad2);
+
+MATCH  (isa:account_holder{unique_id:117}),(ad2:address{add_id: 1001})
+MERGE (isa)-[:has_address]-> (ad2);
+ 
+MATCH (emma:account_holder{unique_id:118}),(ad3:address{add_id: 1002}) 
+MERGE (emma)-[:has_address]-> (ad3);
+
+MATCH (ava:account_holder{unique_id:119}),(ad3:address{add_id: 1002}) 
+MERGE (ava)-[:has_address]-> (ad3);
+ 
+MATCH (quinn:account_holder{unique_id:120}), (ad4:address{add_id: 1003})
+MERGE (quinn)-[:has_address]-> (ad4);
+
+// relationship for has_id
+
+MATCH (yun1:account_holder{unique_id:111}),(id1:identification{id_number:11})
+MERGE (yun1)-[:has_id]-> (id1);
+ 
+MATCH (yun2:account_holder{unique_id:112}),(id1:identification{id_number:11})
+MERGE (yun2)-[:has_id]-> (id1);
+ 
+MATCH (yun3:account_holder{unique_id:113}),(id1:identification{id_number:11})
+MERGE (yun3)-[:has_id]-> (id1);
+ 
+MATCH (yun4:account_holder{unique_id:114}),(id1:identification{id_number:11})
+MERGE (yun4)-[:has_id]-> (id1);
+ 
+MATCH (yun5:account_holder{unique_id:115}),(id1:identification{id_number:11})
+MERGE (yun5)-[:has_id]-> (id1);
+ 
+MATCH (zoe:account_holder{unique_id:116}),(id2:identification{id_number:12})
+MERGE (zoe)-[:has_id]-> (id2);
+ 
+MATCH (isa:account_holder{unique_id:117}),(id3:identification{id_number:13})
+MERGE (isa)-[:has_id]-> (id3);
+ 
+MATCH (emma:account_holder{unique_id:118}),(id4:identification{id_number:14})
+MERGE (emma)-[:has_id]-> (id4);
+ 
+MATCH (ava:account_holder{unique_id:119}),(id5:identification{id_number:15})
+MERGE (ava)-[:has_id]-> (id5);
+ 
+MATCH (quinn:account_holder{unique_id:120}),(id6:identification{id_number:16})
+MERGE (quinn)-[:has_id]-> (id6);
+
+// relationship for has_creditcard
+
+MATCH (yun1:account_holder{unique_id:111}),(cc1:credit_card{card_number:5453123456789101})
+MERGE (yun1)-[:has_creditcard]-> (cc1);
+ 
+MATCH (yun2:account_holder{unique_id:112}),(cc2:credit_card{card_number:3456123456789102})
+MERGE (yun2)-[:has_creditcard]-> (cc2);
+ 
+MATCH (yun3:account_holder{unique_id:113}),(cc3:credit_card{card_number:2456123456789103})
+MERGE (yun3)-[:has_creditcard]-> (cc3);
+ 
+MATCH (yun4:account_holder{unique_id:114}),(cc4:credit_card{card_number:1456123456789104})
+MERGE (yun4)-[:has_creditcard]-> (cc4);
+ 
+MATCH (yun5:account_holder{unique_id:115}),(cc5:credit_card{card_number:6456123456789105})
+MERGE (yun5)-[:has_creditcard]-> (cc5);
+
+MATCH (zoe:account_holder{unique_id:116}),(cc6:credit_card{card_number:3456123456789101})
+MERGE (zoe)-[:has_creditcard]-> (cc6);
+ 
+MATCH (isa:account_holder{unique_id:117}),(cc7:credit_card{card_number:3456123456789105})
+MERGE (isa)-[:has_creditcard]-> (cc7);
+ 
+MATCH (emma:account_holder{unique_id:118}),(cc8:credit_card{card_number:2456123456789101})
+MERGE (emma)-[:has_creditcard]-> (cc8);
+ 
+MATCH (ava:account_holder{unique_id:119}),(cc9:credit_card{card_number:3456123456789103})
+MERGE (ava)-[:has_creditcard]-> (cc9);
+ 
+MATCH (quinn:account_holder{unique_id:120}),(cc10:credit_card{card_number:3456123456789104})
+MERGE (quinn)-[:has_creditcard]-> (cc10);
+
+// relationship for from_bank
+
+MATCH (cc1:credit_card{card_number:5453123456789101}),(hsbc:financial_institution{bank_id:2001})
+MERGE (cc1)-[:from_bank]-> (hsbc);
+ 
+MATCH (cc2:credit_card{card_number:3456123456789102}),(barc:financial_institution{bank_id:2002})
+MERGE (cc2)-[:from_bank]-> (barc);
+ 
+MATCH (cc3:credit_card{card_number:2456123456789103}),(nat:financial_institution{bank_id:2003})
+MERGE (cc3)-[:from_bank]-> (nat);
+ 
+MATCH (cc4:credit_card{card_number:1456123456789104}),(san:financial_institution{bank_id:2004})
+MERGE (cc4)-[:from_bank]-> (san);
+ 
+MATCH (cc5:credit_card{card_number:6456123456789105}),(stan:financial_institution{bank_id:2005})
+MERGE (cc5)-[:from_bank]-> (stan);
+ 
+MATCH (cc6:credit_card{card_number:3456123456789101}),(barc:financial_institution{bank_id:2002})
+MERGE (cc6)-[:from_bank]-> (barc);
+ 
+MATCH (cc7:credit_card{card_number:3456123456789105}),(barc:financial_institution{bank_id:2002})
+MERGE (cc7)-[:from_bank]-> (barc);
+ 
+MATCH (cc8:credit_card{card_number:2456123456789101}),(nat:financial_institution{bank_id:2003})
+MERGE (cc8)-[:from_bank]-> (nat);
+ 
+MATCH(cc9:credit_card{card_number:3456123456789103}),(barc:financial_institution{bank_id:2002})
+MERGE (cc9)-[:from_bank]-> (barc);
+ 
+MATCH (cc10:credit_card{card_number:3456123456789104}),(barc:financial_institution{bank_id:2002})
+MERGE (cc10)-[:from_bank]-> (barc);
+
+// relationship for from_card
+
+MATCH (t1:transaction{transaction_id:901}),(cc1:credit_card{card_number:5453123456789101}) 
+MERGE (t1)-[:from_card]-> (cc1);
+
+MATCH (t2:transaction{transaction_id:902}),(cc1:credit_card{card_number:5453123456789101}) 
+MERGE (t2)-[:from_card]-> (cc1);
+
+MATCH (t3:transaction{transaction_id:903}),(cc2:credit_card{card_number:3456123456789102}) 
+MERGE (t3)-[:from_card]-> (cc2);
+
+MATCH (t4:transaction{transaction_id:904}),(cc3:credit_card{card_number:2456123456789103}) 
+MERGE (t4)-[:from_card]-> (cc3);
+
+MATCH (t5:transaction{transaction_id:905}),(cc4:credit_card{card_number:1456123456789104}) 
+MERGE (t5)-[:from_card]-> (cc4);
+
+MATCH (t6:transaction{transaction_id:906}),(cc5:credit_card{card_number:6456123456789105}) 
+MERGE (t6)-[:from_card]-> (cc5);
+
+MATCH (t7:transaction{transaction_id:907}),(cc5:credit_card{card_number:6456123456789105}) 
+MERGE (t7)-[:from_card]-> (cc5);
+
+MATCH (t8:transaction{transaction_id:908}),(cc5:credit_card{card_number:6456123456789105}) 
+MERGE (t8)-[:from_card]-> (cc5);
+
+MATCH (t9:transaction{transaction_id:909}),(cc5:credit_card{card_number:6456123456789105}) 
+MERGE (t9)-[:from_card]-> (cc5);
+
+MATCH (t10:transaction{transaction_id:910}),(cc6:credit_card{card_number:3456123456789101}) 
+MERGE (t10)-[:from_card]-> (cc6);
+
+MATCH (t11:transaction{transaction_id:911}),(cc7:credit_card{card_number:3456123456789105}) 
+MERGE (t11)-[:from_card]-> (cc7);
+
+MATCH (t12:transaction{transaction_id:912}),(cc8:credit_card{card_number:2456123456789101}) 
+MERGE (t12)-[:from_card]-> (cc8);
+
+MATCH (t13:transaction{transaction_id:913}),(cc8:credit_card{card_number:2456123456789101}) 
+MERGE (t13)-[:from_card]-> (cc8);
+
+MATCH (t14:transaction{transaction_id:914}),(cc9:credit_card{card_number:3456123456789103}) 
+MERGE (t14)-[:from_card]-> (cc9);
+
+MATCH (t15:transaction{transaction_id:915}),(cc9:credit_card{card_number:3456123456789103}) 
+MERGE (t15)-[:from_card]-> (cc9);
+
+MATCH (t16:transaction{transaction_id:916}),(cc9:credit_card{card_number:3456123456789103}) 
+MERGE (t16)-[:from_card]-> (cc9);
+
+MATCH (t17:transaction{transaction_id:917}),(cc10:credit_card{card_number:3456123456789104}) 
+MERGE (t17)-[:from_card]-> (cc10);
+
+MATCH (t18:transaction{transaction_id:918}),(cc10:credit_card{card_number:3456123456789104}) 
+MERGE (t18)-[:from_card]-> (cc10);
+
+MATCH (t19:transaction{transaction_id:919}),(cc10:credit_card{card_number:3456123456789104}) 
+MERGE (t19)-[:from_card]-> (cc10);
+
+MATCH (t20:transaction{transaction_id:920}),(cc10:credit_card{card_number:3456123456789104}) 
+MERGE (t20)-[:from_card]-> (cc10);
+
+MATCH (t21:transaction{transaction_id:921}),(cc10:credit_card{card_number:3456123456789104}) 
+MERGE (t21)-[:from_card]-> (cc10);
+
+MATCH (t22:transaction{transaction_id:922}),(cc10:credit_card{card_number:3456123456789104}) 
+MERGE (t22)-[:from_card]-> (cc10);
+
+// relationship for from_ip
+
+MATCH (t1:transaction{transaction_id:901}),(ip1:ip_address{ipid:3001})
+MERGE (t1)-[:from_ip]-> (ip1);
+
+MATCH (t2:transaction{transaction_id:902}),(ip2:ip_address{ipid:3002})
+MERGE (t2)-[:from_ip]-> (ip2);
+
+MATCH (t3:transaction{transaction_id:903}),(ip1:ip_address{ipid:3001})
+MERGE (t3)-[:from_ip]-> (ip1);
+
+MATCH (t4:transaction{transaction_id:904}),(ip1:ip_address{ipid:3001})
+MERGE (t4)-[:from_ip]-> (ip1);
+
+MATCH (t5:transaction{transaction_id:905}),(ip1:ip_address{ipid:3001})
+MERGE (t5)-[:from_ip]-> (ip1);
+
+MATCH (t6:transaction{transaction_id:906}),(ip3:ip_address{ipid:3003})
+MERGE (t6)-[:from_ip]-> (ip3);
+
+MATCH (t7:transaction{transaction_id:907}),(ip3:ip_address{ipid:3003})
+MERGE (t7)-[:from_ip]-> (ip3);
+
+MATCH (t8:transaction{transaction_id:908}),(ip3:ip_address{ipid:3003})
+MERGE (t8)-[:from_ip]-> (ip3);
+
+MATCH (t9:transaction{transaction_id:909}),(ip4:ip_address{ipid:3004})
+MERGE (t9)-[:from_ip]-> (ip4);
+
+MATCH (t10:transaction{transaction_id:910}),(ip5:ip_address{ipid:3005})
+MERGE (t10)-[:from_ip]-> (ip5);
+
+MATCH (t11:transaction{transaction_id:911}),(ip5:ip_address{ipid:3005})
+MERGE (t11)-[:from_ip]-> (ip5);
+
+MATCH (t12:transaction{transaction_id:912}),(ip6:ip_address{ipid:3006})
+MERGE (t12)-[:from_ip]-> (ip6);
+
+MATCH (t13:transaction{transaction_id:913}),(ip7:ip_address{ipid:3007})
+MERGE (t13)-[:from_ip]-> (ip7);
+
+MATCH (t14:transaction{transaction_id:914}),(ip6:ip_address{ipid:3006})
+MERGE (t14)-[:from_ip]-> (ip6);
+
+MATCH (t15:transaction{transaction_id:915}),(ip8:ip_address{ipid:3008})
+MERGE (t15)-[:from_ip]-> (ip8);
+
+MATCH (t16:transaction{transaction_id:916}),(ip9:ip_address{ipid:3009})
+MERGE (t16)-[:from_ip]-> (ip9);
+
+MATCH (t17:transaction{transaction_id:917}),(ip10:ip_address{ipid:3010})
+MERGE (t17)-[:from_ip]-> (ip10);
+
+MATCH (t18:transaction{transaction_id:918}),(ip11:ip_address{ipid:3011})
+MERGE (t18)-[:from_ip]-> (ip11);
+
+MATCH (t19:transaction{transaction_id:919}),(ip12:ip_address{ipid:3012})
+MERGE (t19)-[:from_ip]-> (ip12);
+
+MATCH (t20:transaction{transaction_id:920}),(ip10:ip_address{ipid:3010})
+MERGE (t20)-[:from_ip]-> (ip10);
+
+MATCH (t21:transaction{transaction_id:921}),(ip12:ip_address{ipid:3012})
+MERGE (t21)-[:from_ip]-> (ip12);
+
+MATCH (t22:transaction{transaction_id:922}),(ip12:ip_address{ipid:3012})
+MERGE (t22)-[:from_ip]-> (ip12);
+
+// relationship for located_in
+
+MATCH (south:city{city_id:4001}),(ip1:ip_address{ipid:3001})
+MERGE (ip1)-[:located_in]-> (south);
+
+MATCH (south:city{city_id:4001}),(ip2:ip_address{ipid:3002})
+MERGE (ip2)-[:located_in]-> (south);
+
+MATCH (sg:city{city_id:4004}),(ip3:ip_address{ipid:3003})
+MERGE (ip3)-[:located_in]-> (sg);
+
+MATCH (sg:city{city_id:4004}),(ip4:ip_address{ipid:3004})
+MERGE (ip4)-[:located_in]-> (sg);
+
+MATCH (london:city{city_id:4002}),(ip5:ip_address{ipid:3005})
+MERGE (ip5)-[:located_in]-> (london);
+
+MATCH (london:city{city_id:4002}),(ip6:ip_address{ipid:3006})
+MERGE (ip6)-[:located_in]-> (london);
+
+MATCH (london:city{city_id:4002}),(ip7:ip_address{ipid:3007})
+MERGE (ip7)-[:located_in]-> (london);
+
+MATCH (london:city{city_id:4002}),(ip8:ip_address{ipid:3008}) 
+MERGE (ip8)-[:located_in]-> (london);
+
+MATCH (london:city{city_id:4002}),(ip9:ip_address{ipid:3009}) 
+MERGE (ip9)-[:located_in]-> (london);
+
+MATCH (rugby:city{city_id:4003}),(ip10:ip_address{ipid:3010})
+MERGE (ip10)-[:located_in]-> (rugby);
+
+MATCH (rugby:city{city_id:4003}),(ip11:ip_address{ipid:3011}) 
+MERGE (ip11)-[:located_in]-> (rugby);
+
+MATCH (bar:city{city_id:4005}),(ip12:ip_address{ipid:3012}) 
+MERGE (ip12)-[:located_in]-> (bar);
+
+// relationship for billed_at
+
+MATCH (t1:transaction{transaction_id:901}),
+(ad1:address{add_id: 1000}) 
+MERGE (t1)-[:billed_at]-> (ad1);
+
+MATCH (t2:transaction{transaction_id:902}),
+(ad1:address{add_id: 1000}) 
+MERGE (t2)-[:billed_at]-> (ad1);
+
+MATCH (t3:transaction{transaction_id:903}),
+(ad1:address{add_id: 1000}) 
+MERGE (t3)-[:billed_at]-> (ad1);
+
+MATCH (t4:transaction{transaction_id:904}),
+(ad1:address{add_id: 1000}) 
+MERGE (t4)-[:billed_at]-> (ad1);
+
+MATCH (t5:transaction{transaction_id:905}),
+(ad1:address{add_id: 1000}) 
+MERGE (t5)-[:billed_at]-> (ad1);
+
+MATCH (t6:transaction{transaction_id:906}),
+(ad1:address{add_id: 1000}) 
+MERGE (t6)-[:billed_at]-> (ad1);
+
+MATCH (t7:transaction{transaction_id:907}),
+(ad1:address{add_id: 1000}) 
+MERGE (t7)-[:billed_at]-> (ad1);
+
+MATCH (t8:transaction{transaction_id:908}),
+(ad1:address{add_id: 1000}) 
+MERGE (t8)-[:billed_at]-> (ad1);
+
+MATCH (t9:transaction{transaction_id:909}),
+(ad1:address{add_id: 1000}) 
+MERGE (t9)-[:billed_at]-> (ad1);
+
+MATCH (t10:transaction{transaction_id:910}),
+(ad2:address{add_id: 1001}) 
+MERGE (t10)-[:billed_at]-> (ad2);
+
+MATCH (t11:transaction{transaction_id:911}),
+(ad2:address{add_id: 1001}) 
+MERGE (t11)-[:billed_at]-> (ad2);
+
+MATCH (t12:transaction{transaction_id:912}),
+(ad3:address{add_id: 1002}) 
+MERGE (t12)-[:billed_at]-> (ad3);
+
+MATCH (t13:transaction{transaction_id:913}),
+(ad3:address{add_id: 1002}) 
+MERGE (t13)-[:billed_at]-> (ad3);
+
+MATCH (t14:transaction{transaction_id:914}),
+(ad3:address{add_id: 1002}) 
+MERGE (t14)-[:billed_at]-> (ad3);
+
+MATCH (t15:transaction{transaction_id:915}),
+(ad3:address{add_id: 1002}) 
+MERGE (t15)-[:billed_at]-> (ad3);
+
+MATCH (t16:transaction{transaction_id:916}),
+(ad3:address{add_id: 1002}) 
+MERGE (t16)-[:billed_at]-> (ad3);
+
+MATCH (t17:transaction{transaction_id:917}),
+(ad5:address{add_id: 1004})
+MERGE (t17)-[:billed_at]-> (ad5);
+
+MATCH (t18:transaction{transaction_id:918}),
+(ad4:address{add_id: 1003})
+MERGE (t18)-[:billed_at]-> (ad4);
+
+MATCH (t19:transaction{transaction_id:919}),
+(ad6:address{add_id: 1005}) 
+MERGE (t19)-[:billed_at]-> (ad6);
+
+MATCH (t20:transaction{transaction_id:920}),
+(ad4:address{add_id: 1003})
+MERGE (t20)-[:billed_at]-> (ad4);
+
+MATCH (t21:transaction{transaction_id:921}),
+(ad6:address{add_id: 1005}) 
+MERGE (t21)-[:billed_at]-> (ad6);
+
+MATCH (t22:transaction{transaction_id:922}),
+(ad6:address{add_id: 1005}) 
+MERGE (t22)-[:billed_at]-> (ad6);
+
+
+// relationship for delivered_at
+
+MATCH (t1:transaction{transaction_id:901}),
+(ad1:address{add_id: 1000}) 
+MERGE (t1)-[:delivered_at]-> (ad1);
+
+MATCH (t2:transaction{transaction_id:902}),
+(ad1:address{add_id: 1000}) 
+MERGE (t2)-[:delivered_at]-> (ad1);
+
+MATCH (t3:transaction{transaction_id:903}),
+(ad1:address{add_id: 1000}) 
+MERGE (t3)-[:delivered_at]-> (ad1);
+
+MATCH (t4:transaction{transaction_id:904}),
+(ad1:address{add_id: 1000}) 
+MERGE (t4)-[:delivered_at]-> (ad1);
+ 
+MATCH (t5:transaction{transaction_id:905}),
+(ad1:address{add_id: 1000}) 
+MERGE (t5)-[:delivered_at]-> (ad1);
+
+MATCH (t6:transaction{transaction_id:906}),
+(ad5:address{add_id: 1004}) 
+MERGE (t6)-[:delivered_at]-> (ad5);
+
+MATCH (t7:transaction{transaction_id:907}),
+(ad5:address{add_id: 1004}) 
+MERGE (t7)-[:delivered_at]-> (ad5);
+
+MATCH (t8:transaction{transaction_id:908}),
+(ad5:address{add_id: 1004}) 
+MERGE (t8)-[:delivered_at]-> (ad5);
+
+MATCH (t9:transaction{transaction_id:909}),
+(ad5:address{add_id: 1004}) 
+MERGE (t9)-[:delivered_at]-> (ad5);
+
+MATCH (t10:transaction{transaction_id:910}),
+(ad2:address{add_id: 1001}) 
+MERGE (t10)-[:delivered_at]-> (ad2);
+
+MATCH (t11:transaction{transaction_id:911}),
+(ad2:address{add_id: 1001}) 
+MERGE (t11)-[:delivered_at]-> (ad2);
+
+MATCH (t12:transaction{transaction_id:912}),
+(ad3:address{add_id: 1002}) 
+MERGE (t12)-[:delivered_at]-> (ad3);
+
+MATCH (t13:transaction{transaction_id:913}),
+(ad3:address{add_id: 1002}) 
+MERGE (t13)-[:delivered_at]-> (ad3);
+
+MATCH (t14:transaction{transaction_id:914}),
+(ad3:address{add_id: 1002}) 
+MERGE (t14)-[:delivered_at]-> (ad3);
+
+MATCH (t15:transaction{transaction_id:915}),
+(ad3:address{add_id: 1002}) 
+MERGE (t15)-[:delivered_at]-> (ad3);
+
+MATCH (t16:transaction{transaction_id:916}),
+(ad3:address{add_id: 1002}) 
+MERGE (t16)-[:delivered_at]-> (ad3);
+
+MATCH (t17:transaction{transaction_id:917}),
+(ad4:address{add_id: 1003})
+MERGE (t17)-[:delivered_at]-> (ad4);
+
+MATCH (t18:transaction{transaction_id:918}),
+(ad4:address{add_id: 1003})
+MERGE (t18)-[:delivered_at]-> (ad4);
+
+MATCH (t19:transaction{transaction_id:919}),
+(ad6:address{add_id: 1005}) 
+MERGE (t19)-[:delivered_at]-> (ad6);
+
+MATCH (t20:transaction{transaction_id:920}),
+(ad4:address{add_id: 1003})
+MERGE (t20)-[:delivered_at]-> (ad4);
+
+MATCH (t21:transaction{transaction_id:921}),
+(ad6:address{add_id: 1005}) 
+MERGE (t21)-[:delivered_at]-> (ad6);
+
+MATCH (t22:transaction{transaction_id:922}),
+(ad6:address{add_id: 1005}) 
+MERGE (t22)-[:delivered_at]-> (ad6);
+
+// relationship for with_login
+
+MATCH (t1:transaction{transaction_id:901}),(l1:login{login_id: 501}) 
+MERGE (t1)-[:with_login]-> (l1);
+ 
+MATCH (t2:transaction{transaction_id:902}),(l1:login{login_id: 501}) 
+MERGE (t2)-[:with_login]-> (l1);
+ 
+MATCH (t3:transaction{transaction_id:903}),(l1:login{login_id: 501}) 
+MERGE (t3)-[:with_login]-> (l1);
+ 
+MATCH (t4:transaction{transaction_id:904}),(l1:login{login_id: 501}) 
+MERGE (t4)-[:with_login]-> (l1);
+ 
+MATCH (t5:transaction{transaction_id:905}),(l1:login{login_id: 501}) 
+MERGE (t5)-[:with_login]-> (l1);
+
+MATCH (t6:transaction{transaction_id:906}),(l2:login{login_id: 502}) 
+MERGE (t6)-[:with_login]-> (l2);
+ 
+MATCH (t7:transaction{transaction_id:907}),(l2:login{login_id: 502}) 
+MERGE (t7)-[:with_login]-> (l2);
+ 
+MATCH (t8:transaction{transaction_id:908}),(l2:login{login_id: 502}) 
+MERGE (t8)-[:with_login]-> (l2);
+ 
+MATCH (t9:transaction{transaction_id:909}),(l2:login{login_id: 502}) 
+MERGE (t9)-[:with_login]-> (l2);
+ 
+MATCH (t10:transaction{transaction_id:910}),(l3:login{login_id: 503}) 
+MERGE (t10)-[:with_login]-> (l3);
+ 
+MATCH (t11:transaction{transaction_id:911}),(l5:login{login_id: 505}) 
+MERGE (t11)-[:with_login]-> (l5);
+ 
+MATCH (t12:transaction{transaction_id:912}),(l6:login{login_id: 506}) 
+MERGE (t12)-[:with_login]-> (l6);
+ 
+MATCH (t13:transaction{transaction_id:913}),(l6:login{login_id: 506}) 
+MERGE (t13)-[:with_login]-> (l6);
+ 
+MATCH (t14:transaction{transaction_id:914}),(l7:login{login_id: 507}) 
+MERGE (t14)-[:with_login]-> (l7);
+ 
+MATCH (t15:transaction{transaction_id:915}),(l7:login{login_id: 507}) 
+MERGE (t15)-[:with_login]-> (l7);
+ 
+MATCH (t16:transaction{transaction_id:916}),(l7:login{login_id: 507}) 
+MERGE (t16)-[:with_login]-> (l7);
+ 
+MATCH (t17:transaction{transaction_id:917}),(l8:login{login_id: 508}) 
+MERGE (t17)-[:with_login]-> (l8);
+ 
+MATCH (t18:transaction{transaction_id:918}),(l8:login{login_id: 508}) 
+MERGE (t18)-[:with_login]-> (l8);
+ 
+MATCH (t19:transaction{transaction_id:919}),(l8:login{login_id: 508}) 
+MERGE (t19)-[:with_login]-> (l8);
+ 
+MATCH (t20:transaction{transaction_id:920}),(l8:login{login_id: 508}) 
+MERGE (t20)-[:with_login]-> (l8);
+ 
+MATCH (t21:transaction{transaction_id:921}),(l8:login{login_id: 508}) 
+MERGE (t21)-[:with_login]-> (l8);
+ 
+MATCH (t22:transaction{transaction_id:922}),(l8:login{login_id: 508}) 
+MERGE (t22)-[:with_login]-> (l8);
+
+// relationship for for_shop
+
+MATCH (l:login),(s1:shop{shop_id:601})
+MERGE (l)-[:for_shop]-> (s1);
+
+
+
